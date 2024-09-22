@@ -4,13 +4,20 @@
 // Async/Await
 
 console.log('Before');
-getUser(1, (user) => {
-    //console.log('The user: ', user);
-    getRepositories(user.gitHubUsername, (repos) => {
-        console.log('The repos: ', repos);
-    })
-});
+getUser(1, getRepositories);
 console.log('After');
+
+function getRepositories(user) {
+    getRepositories(user.gitHubUsername, getCommits);
+}
+
+function getCommits(repos) {
+    getCommits(repo, displayCommits);
+}
+
+function displayCommits(commits) {
+    console.log('The commits: ', commits);
+}
 
 function getUser(id, callback) {
     //simulate a long-running operation
